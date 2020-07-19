@@ -1,3 +1,4 @@
+import { AxiosPromise } from 'axios';
 export interface Escort {
   id: string;
   title?: string;
@@ -114,4 +115,10 @@ export interface RatesPerTimeData {
 export interface RatesPerPlaceData {
   incall: number;
   outcall: number;
+}
+
+export type ReqParams = { [k: string]: string | number | undefined };
+
+export interface APIRequest<T> {
+  (method: string, url: string, params: ReqParams): AxiosPromise<T>;
 }

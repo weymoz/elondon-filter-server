@@ -21,4 +21,6 @@ export const MONGODB_CONNECT_URL =
 export const CONTENTFUL_API_BASE_URL = process.env.CONTENTFUL_API_BASE_URL;
 export const CONTENTFUL_API_BASE_PARAMS = {
   access_token: process.env.CONTENTFUL_API_ACCESS_TOKEN,
+  limit: 100,
+  skip: 0,
 };

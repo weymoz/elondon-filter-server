@@ -1,4 +1,4 @@
-import { EscortData, EscortsData } from './../types';
+import { EscortData, EscortsData, ReqParams } from './../types';
 import axios, { AxiosPromise } from 'axios';
 import {
   DEVELOPMENT,
@@ -10,8 +10,8 @@ import { stringify } from 'querystring';
 
 axios.interceptors.request.use(
   (config) => {
-    logger.info('Request: ');
-    logger.info(config);
+    logger.debug('Request: ');
+    logger.debug(config);
     return config;
   },
   (error) => {
@@ -22,8 +22,8 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
   (response) => {
-    // logger.info('Response:');
-    // logger.info(response);
+    logger.trace('Response:');
+    logger.trace(response);
     return response;
   },
   (error) => {
@@ -31,9 +31,8 @@ axios.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-type ReqParams = { [k: string]: string | number | undefined };
 
-const request = <T>(baseUrl: string, baseParams: ReqParams) => (
+const request = <T>(baseUrl: string, baseParams?: ReqParams) => (
   method: string,
   url: string,
   params: ReqParams,
@@ -43,7 +42,7 @@ const request = <T>(baseUrl: string, baseParams: ReqParams) => (
     url: `${baseUrl}${url}`,
     params: {
       ...baseParams,
-      ...params,
+      ...(params || {}),
     },
     data,
   }) as AxiosPromise<T>;
@@ -60,7 +59,9 @@ if (!CONTENTFUL_API_BASE_PARAMS.access_token) {
   throw new Error(msg);
 }
 
-export const contentfulReqest = request<EscortsData>(
+const contentfulReqest = request<EscortsData>(
   CONTENTFUL_API_BASE_URL,
   CONTENTFUL_API_BASE_PARAMS
 );
+
+export { axios, contentfulReqest };
