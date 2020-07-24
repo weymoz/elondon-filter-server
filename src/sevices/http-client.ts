@@ -59,7 +59,7 @@ if (!CONTENTFUL_API_BASE_PARAMS.access_token) {
   throw new Error(msg);
 }
 
-const contentfulReqest = request<EscortsData>(
+const contentfulReqest = request<EscortsData<EscortData>>(
   CONTENTFUL_API_BASE_URL,
   CONTENTFUL_API_BASE_PARAMS
 );
